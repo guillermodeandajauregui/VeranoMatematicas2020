@@ -80,6 +80,7 @@ Considerar que existen varios tipos de formatos de redes.
 
 Examinemos nuestra red
 
+**R**
 ``` r
 g
 ```
@@ -107,118 +108,68 @@ len(g.edges()) # num. aristas
 Nuestra red tiene 77 nodos, con 254 enlaces entre ellos. Es una red *no
 dirigida* y *no pesada*.
 
-Hagamos una primera visualización
+
+¿Cómo es *tu* red?
+
+
+## Hagamos una primera visualización
 
 ``` r
 plot(g)
+```
+
+**Python** 
+``` python
+nx.draw(g)
 ```
 
 ![](redes_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Esta visualización no es muy estética… ya la mejoraremos
 
-## Exportemos la red en varios formatos
+## Exportemos la red
 
-### Formato de RDS, solo útil para regresar a R
+Existen varios formatos para representar redes: matriz de adyacencia, lista de enlaces, etc. 
 
-``` r
-#guardar
-dir.create("data")
-```
+Escribamos nuestra red en graphml, un formato basado en xml que permite portar información de nodos y aristas.
 
-    ## Warning in dir.create("data"): 'data' already exists
-
-``` r
-saveRDS(object = g, 
-        file = "data/red_mis.RDS")
-#volver a leer
-g.rds <- readRDS(file = "data/red_mis.RDS")
-g.rds
-```
-
-    ## IGRAPH e2a34c4 U--- 77 254 -- 
-    ## + attr: id (v/n), label (v/c)
-    ## + edges from e2a34c4:
-    ##  [1]  1-- 2  1-- 3  1-- 4  3-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--10
-    ## [11] 11--12  4--12  3--12  1--12 12--13 12--14 12--15 12--16 17--18 17--19
-    ## [21] 18--19 17--20 18--20 19--20 17--21 18--21 19--21 20--21 17--22 18--22
-    ## [31] 19--22 20--22 21--22 17--23 18--23 19--23 20--23 21--23 22--23 17--24
-    ## [41] 18--24 19--24 20--24 21--24 22--24 23--24 13--24 12--24 24--25 12--25
-    ## [51] 25--26 24--26 12--26 25--27 12--27 17--27 26--27 12--28 24--28 26--28
-    ## [61] 25--28 27--28 12--29 28--29 24--30 28--30 12--30 24--31 31--32 12--32
-    ## [71] 24--32 28--32 12--33 12--34 28--34 12--35 30--35 12--36 35--36 30--36
-    ## + ... omitted several edges
-
-## Exportemos con write.graph
-
-### Formato de Graphml
-
+**R**
 ``` r
 #escribir
 write.graph(graph = g, 
             file = "red_mis.graphml", 
             format = "graphml"
             )
-#volver a leer
-g.graphml <- read.graph(file = "red_mis.graphml", 
-                        format = "graphml")
-g.graphml
 ```
 
-    ## IGRAPH 49d0aac U--- 77 254 -- 
-    ## + attr: id (v/n), label (v/c)
-    ## + edges from 49d0aac:
-    ##  [1]  1-- 2  1-- 3  1-- 4  3-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--10
-    ## [11] 11--12  4--12  3--12  1--12 12--13 12--14 12--15 12--16 17--18 17--19
-    ## [21] 18--19 17--20 18--20 19--20 17--21 18--21 19--21 20--21 17--22 18--22
-    ## [31] 19--22 20--22 21--22 17--23 18--23 19--23 20--23 21--23 22--23 17--24
-    ## [41] 18--24 19--24 20--24 21--24 22--24 23--24 13--24 12--24 24--25 12--25
-    ## [51] 25--26 24--26 12--26 25--27 12--27 17--27 26--27 12--28 24--28 26--28
-    ## [61] 25--28 27--28 12--29 28--29 24--30 28--30 12--30 24--31 31--32 12--32
-    ## [71] 24--32 28--32 12--33 12--34 28--34 12--35 30--35 12--36 35--36 30--36
-    ## + ... omitted several edges
-
-### Formato de edge list
-
-``` r
+**Python**
+``` python
 #escribir
-write.graph(graph = g, 
-            file = "red_mis.txt", 
-            format = "edgelist"
-            )
-#volver a leer
-g.edgelist <- read.graph(file = "red_mis.txt", 
-                        format = "edgelist")
-g.edgelist
+nx.write_graphml(file="red_mis.graphml")
 ```
 
-    ## IGRAPH fb3bfc1 D--- 77 254 -- 
-    ## + edges from fb3bfc1:
-    ##  [1]  1-> 2  1-> 3  1-> 4  1-> 5  1-> 6  1-> 7  1-> 8  1-> 9  1->10  1->12
-    ## [11]  3-> 4  3->12  4->12 11->12 12->13 12->14 12->15 12->16 12->24 12->25
-    ## [21] 12->26 12->27 12->28 12->29 12->30 12->32 12->33 12->34 12->35 12->36
-    ## [31] 12->37 12->38 12->39 12->44 12->45 12->49 12->50 12->52 12->56 12->59
-    ## [41] 12->65 12->69 12->70 12->71 12->72 12->73 13->24 17->18 17->19 17->20
-    ## [51] 17->21 17->22 17->23 17->24 17->27 17->56 18->19 18->20 18->21 18->22
-    ## [61] 18->23 18->24 19->20 19->21 19->22 19->23 19->24 20->21 20->22 20->23
-    ## [71] 20->24 21->22 21->23 21->24 22->23 22->24 23->24 24->25 24->26 24->28
-    ## [81] 24->30 24->31 24->32 25->26 25->27 25->28 25->42 25->43 25->51 25->69
-    ## + ... omitted several edges
+### Para explorar: 
 
-## ¿Hay una red en mi data.frame?
+- Revisen el archivo de salida; ¿cómo se ve? 
+- Experimenten otro tipo de archivos de salida: gml, edge list, json... ¿cómo difieren? 
+- Para los usuarios de R y Python: ¿qué pasa si intento leer una red escrita en Python en R o viceversa? 
 
-**Si.**
 
-Descargar estos
-datos:
+### Interludio: ¿Hay una red en mis datos? 
+
+Respuesta: **es más probable de lo que te imaginas** 
+
+
+Ejercicio opcional: 
+
+- Descargar estos datos:
 
 <https://raw.githubusercontent.com/guillermodeandajauregui/useR2019INMEGEN/master/movies.csv>
 
-``` r
-movies   <- read.csv("movies.csv")
-head(movies)
-```
 
+Se ven más o menos así: 
+
+``` r
     ##               person      movie billing  role
     ## 1    Viggo Mortensen green book       1 actor
     ## 2     Mahershala Ali green book       2 actor
@@ -226,28 +177,14 @@ head(movies)
     ## 4 Dimiter D. Marinov green book       4 actor
     ## 5        Mike Hatton green book       5 actor
     ## 6        Iqbal Theba green book       6 actor
+``` 
 
-``` r
-g.movies <- graph_from_data_frame(d = movies, directed = FALSE)
-g.movies
-```
+Preguntas:
 
-    ## IGRAPH ec23e13 UN-- 284 290 -- 
-    ## + attr: name (v/c), billing (e/n), role (e/c)
-    ## + edges from ec23e13 (vertex names):
-    ##  [1] Viggo Mortensen     --green book Mahershala Ali      --green book
-    ##  [3] Linda Cardellini    --green book Dimiter D. Marinov  --green book
-    ##  [5] Mike Hatton         --green book Iqbal Theba         --green book
-    ##  [7] Sebastian Maniscalco--green book Von Lewis           --green book
-    ##  [9] P.J. Byrne          --green book Montrel Miller      --green book
-    ## [11] Tom Virtue          --green book Don Stark           --green book
-    ## [13] Brian Stepanek      --green book Dennis W. Hall      --green book
-    ## [15] Randal Gonzalez     --green book Maggie Nixon        --green book
-    ## + ... omitted several edges
+- ¿Puedo leer esto como una red? (Pista: con Python, *read_edgelist()*, con R, leer la tabla y *graph_from_dataframe()*)
+- ¿Qué tipo de red sería esta? 
+- ¿Tienes algún conjunto de datos que se parezca a esta tabla?
 
-    ## Using `nicely` as default layout
-
-![](redes_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 Dejemos esta red para otro momento…
 
@@ -256,11 +193,14 @@ representarse como factores, en principio tenemos alguna estructura de
 relaciones que podemos representar como una red. ¿Es una red
 interesante? *No lo sabemos*.
 
+### Fin del interludio 
+
+Volvamos a nuestra red biológica (o literaria)...
+
 ## Analicemos propiedades globales de la red
 
   - Componentes
 
-<!-- end list -->
 
 ``` r
 mis_componentes <- components(g)
