@@ -2,6 +2,10 @@ Introudcción al Análisis de redes
 ================
 Guilermo de Anda-Jáuregui
 
+**X Escuela de Verano de Matemáticas de la Unidad Juriquilla**
+
+*Aprendizaje de máquina en biología de sistemas*
+
 # Análisis de redes
 
 # ¿Qué es una red?
@@ -201,525 +205,146 @@ Volvamos a nuestra red biológica (o literaria)...
 
   - Componentes
 
-
+**R**
 ``` r
 mis_componentes <- components(g)
-mis_componentes
 ```
 
-    ## $membership
-    ##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    ## [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    ## [71] 1 1 1 1 1 1 1
-    ## 
-    ## $csize
-    ## [1] 77
-    ## 
-    ## $no
-    ## [1] 1
+**Python**
 
-``` r
-#mis componentes es una lista
-mis_componentes$no
+``` python
+nx.number_connected_components(g)
+nx.connected_components(g)
+#para redes dirigidas hay que usar weak or strong connected components
+nx.strongly_connected_components(g)
+nx.weakly_connected_components(g)
 ```
 
-    ## [1] 1
 
-  - Longitud promedio de caminos más cortos
+- Longitud promedio de caminos más cortos
 
-<!-- end list -->
-
+**R**
 ``` r
 mis_caminos <- average.path.length(g)
-mis_caminos
 ```
 
-    ## [1] 2.641148
+**Python**
+``` python
+mis_caminos = nx.average_shortest_path_length(g)
+``` 
 
-  - Coeficiente de agrupamiento (*clustering coefficient*)
+- clustering coefficient global
 
-<!-- end list -->
-
+**R**
 ``` r
 mi_clustering <- transitivity(g, type = "global")
-mi_clustering
 ```
 
-    ## [1] 0.4989316
+**Python**
+``` python
+average_clustering(g)
+``` 
 
-  - Diámetro de la red y radio de la red
+- Diámetro 
 
-<!-- end list -->
-
+**R**
 ``` r
 mi_diametro <- diameter(g)
 mi_diametro
 ```
 
-    ## [1] 5
+**Python**
+``` python
+nx.diameter(g)
+``` 
 
-``` r
-mi_radio    <- radius(g)
-mi_radio
-```
-
-    ## [1] 3
 
 ## analizar propiedades de los nodos
 
 Accedamos a los nodos
 
+
+**R**
 ``` r
 V(g)
 ```
 
-    ## + 77/77 vertices, from e2a34c4:
-    ##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-    ## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
-    ## [47] 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
-    ## [70] 70 71 72 73 74 75 76 77
-
-``` r
-V(g)$label
+**python**
+``` python
+g.nodes()
+g.nodes(data=True)
 ```
 
-    ##  [1] "Myriel"           "Napoleon"         "MlleBaptistine"  
-    ##  [4] "MmeMagloire"      "CountessDeLo"     "Geborand"        
-    ##  [7] "Champtercier"     "Cravatte"         "Count"           
-    ## [10] "OldMan"           "Labarre"          "Valjean"         
-    ## [13] "Marguerite"       "MmeDeR"           "Isabeau"         
-    ## [16] "Gervais"          "Tholomyes"        "Listolier"       
-    ## [19] "Fameuil"          "Blacheville"      "Favourite"       
-    ## [22] "Dahlia"           "Zephine"          "Fantine"         
-    ## [25] "MmeThenardier"    "Thenardier"       "Cosette"         
-    ## [28] "Javert"           "Fauchelevent"     "Bamatabois"      
-    ## [31] "Perpetue"         "Simplice"         "Scaufflaire"     
-    ## [34] "Woman1"           "Judge"            "Champmathieu"    
-    ## [37] "Brevet"           "Chenildieu"       "Cochepaille"     
-    ## [40] "Pontmercy"        "Boulatruelle"     "Eponine"         
-    ## [43] "Anzelma"          "Woman2"           "MotherInnocent"  
-    ## [46] "Gribier"          "Jondrette"        "MmeBurgon"       
-    ## [49] "Gavroche"         "Gillenormand"     "Magnon"          
-    ## [52] "MlleGillenormand" "MmePontmercy"     "MlleVaubois"     
-    ## [55] "LtGillenormand"   "Marius"           "BaronessT"       
-    ## [58] "Mabeuf"           "Enjolras"         "Combeferre"      
-    ## [61] "Prouvaire"        "Feuilly"          "Courfeyrac"      
-    ## [64] "Bahorel"          "Bossuet"          "Joly"            
-    ## [67] "Grantaire"        "MotherPlutarch"   "Gueulemer"       
-    ## [70] "Babet"            "Claquesous"       "Montparnasse"    
-    ## [73] "Toussaint"        "Child1"           "Child2"          
-    ## [76] "Brujon"           "MmeHucheloup"
+Podemos tener la información completa de los nodos
 
-Podemos acceder a todas las propiedades del nodo en un data frame
-
+**R**
 ``` r
 mi_df_nodos <- get.data.frame(x = g, 
                               what = "vertices")
-mi_df_nodos
 ```
 
-    ##    id            label
-    ## 1   0           Myriel
-    ## 2   1         Napoleon
-    ## 3   2   MlleBaptistine
-    ## 4   3      MmeMagloire
-    ## 5   4     CountessDeLo
-    ## 6   5         Geborand
-    ## 7   6     Champtercier
-    ## 8   7         Cravatte
-    ## 9   8            Count
-    ## 10  9           OldMan
-    ## 11 10          Labarre
-    ## 12 11          Valjean
-    ## 13 12       Marguerite
-    ## 14 13           MmeDeR
-    ## 15 14          Isabeau
-    ## 16 15          Gervais
-    ## 17 16        Tholomyes
-    ## 18 17        Listolier
-    ## 19 18          Fameuil
-    ## 20 19      Blacheville
-    ## 21 20        Favourite
-    ## 22 21           Dahlia
-    ## 23 22          Zephine
-    ## 24 23          Fantine
-    ## 25 24    MmeThenardier
-    ## 26 25       Thenardier
-    ## 27 26          Cosette
-    ## 28 27           Javert
-    ## 29 28     Fauchelevent
-    ## 30 29       Bamatabois
-    ## 31 30         Perpetue
-    ## 32 31         Simplice
-    ## 33 32      Scaufflaire
-    ## 34 33           Woman1
-    ## 35 34            Judge
-    ## 36 35     Champmathieu
-    ## 37 36           Brevet
-    ## 38 37       Chenildieu
-    ## 39 38      Cochepaille
-    ## 40 39        Pontmercy
-    ## 41 40     Boulatruelle
-    ## 42 41          Eponine
-    ## 43 42          Anzelma
-    ## 44 43           Woman2
-    ## 45 44   MotherInnocent
-    ## 46 45          Gribier
-    ## 47 46        Jondrette
-    ## 48 47        MmeBurgon
-    ## 49 48         Gavroche
-    ## 50 49     Gillenormand
-    ## 51 50           Magnon
-    ## 52 51 MlleGillenormand
-    ## 53 52     MmePontmercy
-    ## 54 53      MlleVaubois
-    ## 55 54   LtGillenormand
-    ## 56 55           Marius
-    ## 57 56        BaronessT
-    ## 58 57           Mabeuf
-    ## 59 58         Enjolras
-    ## 60 59       Combeferre
-    ## 61 60        Prouvaire
-    ## 62 61          Feuilly
-    ## 63 62       Courfeyrac
-    ## 64 63          Bahorel
-    ## 65 64          Bossuet
-    ## 66 65             Joly
-    ## 67 66        Grantaire
-    ## 68 67   MotherPlutarch
-    ## 69 68        Gueulemer
-    ## 70 69            Babet
-    ## 71 70       Claquesous
-    ## 72 71     Montparnasse
-    ## 73 72        Toussaint
-    ## 74 73           Child1
-    ## 75 74           Child2
-    ## 76 75           Brujon
-    ## 77 76     MmeHucheloup
+**Python**
+``` python
+#usando pandas
+import pandas as pd
+pd.DataFrame.from_dict(dict(g.nodes(data=True)), orient='index')
+```
+
 
 Podemos asignar nuevas propiedades a los nodos
 
+**R**
 ``` r
 #hagamos una nueva propiedad, name, que sea una copia de label
 V(g)$name <- V(g)$label
 
 mi_df_nodos <- get.data.frame(x = g, 
                               what = "vertices")
-mi_df_nodos
+
 ```
 
-    ##                  id            label             name
-    ## Myriel            0           Myriel           Myriel
-    ## Napoleon          1         Napoleon         Napoleon
-    ## MlleBaptistine    2   MlleBaptistine   MlleBaptistine
-    ## MmeMagloire       3      MmeMagloire      MmeMagloire
-    ## CountessDeLo      4     CountessDeLo     CountessDeLo
-    ## Geborand          5         Geborand         Geborand
-    ## Champtercier      6     Champtercier     Champtercier
-    ## Cravatte          7         Cravatte         Cravatte
-    ## Count             8            Count            Count
-    ## OldMan            9           OldMan           OldMan
-    ## Labarre          10          Labarre          Labarre
-    ## Valjean          11          Valjean          Valjean
-    ## Marguerite       12       Marguerite       Marguerite
-    ## MmeDeR           13           MmeDeR           MmeDeR
-    ## Isabeau          14          Isabeau          Isabeau
-    ## Gervais          15          Gervais          Gervais
-    ## Tholomyes        16        Tholomyes        Tholomyes
-    ## Listolier        17        Listolier        Listolier
-    ## Fameuil          18          Fameuil          Fameuil
-    ## Blacheville      19      Blacheville      Blacheville
-    ## Favourite        20        Favourite        Favourite
-    ## Dahlia           21           Dahlia           Dahlia
-    ## Zephine          22          Zephine          Zephine
-    ## Fantine          23          Fantine          Fantine
-    ## MmeThenardier    24    MmeThenardier    MmeThenardier
-    ## Thenardier       25       Thenardier       Thenardier
-    ## Cosette          26          Cosette          Cosette
-    ## Javert           27           Javert           Javert
-    ## Fauchelevent     28     Fauchelevent     Fauchelevent
-    ## Bamatabois       29       Bamatabois       Bamatabois
-    ## Perpetue         30         Perpetue         Perpetue
-    ## Simplice         31         Simplice         Simplice
-    ## Scaufflaire      32      Scaufflaire      Scaufflaire
-    ## Woman1           33           Woman1           Woman1
-    ## Judge            34            Judge            Judge
-    ## Champmathieu     35     Champmathieu     Champmathieu
-    ## Brevet           36           Brevet           Brevet
-    ## Chenildieu       37       Chenildieu       Chenildieu
-    ## Cochepaille      38      Cochepaille      Cochepaille
-    ## Pontmercy        39        Pontmercy        Pontmercy
-    ## Boulatruelle     40     Boulatruelle     Boulatruelle
-    ## Eponine          41          Eponine          Eponine
-    ## Anzelma          42          Anzelma          Anzelma
-    ## Woman2           43           Woman2           Woman2
-    ## MotherInnocent   44   MotherInnocent   MotherInnocent
-    ## Gribier          45          Gribier          Gribier
-    ## Jondrette        46        Jondrette        Jondrette
-    ## MmeBurgon        47        MmeBurgon        MmeBurgon
-    ## Gavroche         48         Gavroche         Gavroche
-    ## Gillenormand     49     Gillenormand     Gillenormand
-    ## Magnon           50           Magnon           Magnon
-    ## MlleGillenormand 51 MlleGillenormand MlleGillenormand
-    ## MmePontmercy     52     MmePontmercy     MmePontmercy
-    ## MlleVaubois      53      MlleVaubois      MlleVaubois
-    ## LtGillenormand   54   LtGillenormand   LtGillenormand
-    ## Marius           55           Marius           Marius
-    ## BaronessT        56        BaronessT        BaronessT
-    ## Mabeuf           57           Mabeuf           Mabeuf
-    ## Enjolras         58         Enjolras         Enjolras
-    ## Combeferre       59       Combeferre       Combeferre
-    ## Prouvaire        60        Prouvaire        Prouvaire
-    ## Feuilly          61          Feuilly          Feuilly
-    ## Courfeyrac       62       Courfeyrac       Courfeyrac
-    ## Bahorel          63          Bahorel          Bahorel
-    ## Bossuet          64          Bossuet          Bossuet
-    ## Joly             65             Joly             Joly
-    ## Grantaire        66        Grantaire        Grantaire
-    ## MotherPlutarch   67   MotherPlutarch   MotherPlutarch
-    ## Gueulemer        68        Gueulemer        Gueulemer
-    ## Babet            69            Babet            Babet
-    ## Claquesous       70       Claquesous       Claquesous
-    ## Montparnasse     71     Montparnasse     Montparnasse
-    ## Toussaint        72        Toussaint        Toussaint
-    ## Child1           73           Child1           Child1
-    ## Child2           74           Child2           Child2
-    ## Brujon           75           Brujon           Brujon
-    ## MmeHucheloup     76     MmeHucheloup     MmeHucheloup
+**Python**
+``` python
+my_labels = nx.get_node_attributes(g, "label")
+nx.set_node_attributes(g, values=my_labels, name="name")
+pd.DataFrame.from_dict(dict(g.nodes(data=True)), orient='index')
+```
 
 ### Calculemos algunas medidas de centralidad
 
   - grado
 
-<!-- end list -->
-
+**R**
 ``` r
 V(g)$grado <- degree(g)
 ```
 
   - intermediación (*betweenness*)
 
-<!-- end list -->
 
+**R**
 ``` r
 V(g)$intermediacion <- betweenness(g)
 ```
 
 ### Podemos tener también el coeficiente de agrupamiento local
 
+**R**
 ``` r
 V(g)$agrupamiento <- transitivity(g, type = "local", isolates = "zero")
 ```
 
+**R**
 ``` r
 mi_df_nodos <- get.data.frame(x = g, 
                               what = "vertices")
-mi_df_nodos
 ```
 
-    ##                  id            label             name grado intermediacion
-    ## Myriel            0           Myriel           Myriel    10    504.0000000
-    ## Napoleon          1         Napoleon         Napoleon     1      0.0000000
-    ## MlleBaptistine    2   MlleBaptistine   MlleBaptistine     3      0.0000000
-    ## MmeMagloire       3      MmeMagloire      MmeMagloire     3      0.0000000
-    ## CountessDeLo      4     CountessDeLo     CountessDeLo     1      0.0000000
-    ## Geborand          5         Geborand         Geborand     1      0.0000000
-    ## Champtercier      6     Champtercier     Champtercier     1      0.0000000
-    ## Cravatte          7         Cravatte         Cravatte     1      0.0000000
-    ## Count             8            Count            Count     1      0.0000000
-    ## OldMan            9           OldMan           OldMan     1      0.0000000
-    ## Labarre          10          Labarre          Labarre     1      0.0000000
-    ## Valjean          11          Valjean          Valjean    36   1624.4688004
-    ## Marguerite       12       Marguerite       Marguerite     2      0.0000000
-    ## MmeDeR           13           MmeDeR           MmeDeR     1      0.0000000
-    ## Isabeau          14          Isabeau          Isabeau     1      0.0000000
-    ## Gervais          15          Gervais          Gervais     1      0.0000000
-    ## Tholomyes        16        Tholomyes        Tholomyes     9    115.7936423
-    ## Listolier        17        Listolier        Listolier     7      0.0000000
-    ## Fameuil          18          Fameuil          Fameuil     7      0.0000000
-    ## Blacheville      19      Blacheville      Blacheville     7      0.0000000
-    ## Favourite        20        Favourite        Favourite     7      0.0000000
-    ## Dahlia           21           Dahlia           Dahlia     7      0.0000000
-    ## Zephine          22          Zephine          Zephine     7      0.0000000
-    ## Fantine          23          Fantine          Fantine    15    369.4869418
-    ## MmeThenardier    24    MmeThenardier    MmeThenardier    11     82.6568934
-    ## Thenardier       25       Thenardier       Thenardier    16    213.4684805
-    ## Cosette          26          Cosette          Cosette    11     67.8193223
-    ## Javert           27           Javert           Javert    17    154.8449450
-    ## Fauchelevent     28     Fauchelevent     Fauchelevent     4     75.5000000
-    ## Bamatabois       29       Bamatabois       Bamatabois     8     22.9166667
-    ## Perpetue         30         Perpetue         Perpetue     2      0.0000000
-    ## Simplice         31         Simplice         Simplice     4     24.6248408
-    ## Scaufflaire      32      Scaufflaire      Scaufflaire     1      0.0000000
-    ## Woman1           33           Woman1           Woman1     2      0.0000000
-    ## Judge            34            Judge            Judge     6      0.0000000
-    ## Champmathieu     35     Champmathieu     Champmathieu     6      0.0000000
-    ## Brevet           36           Brevet           Brevet     6      0.0000000
-    ## Chenildieu       37       Chenildieu       Chenildieu     6      0.0000000
-    ## Cochepaille      38      Cochepaille      Cochepaille     6      0.0000000
-    ## Pontmercy        39        Pontmercy        Pontmercy     3     19.7375000
-    ## Boulatruelle     40     Boulatruelle     Boulatruelle     1      0.0000000
-    ## Eponine          41          Eponine          Eponine    11     32.7395194
-    ## Anzelma          42          Anzelma          Anzelma     3      0.0000000
-    ## Woman2           43           Woman2           Woman2     3      0.0000000
-    ## MotherInnocent   44   MotherInnocent   MotherInnocent     2      0.0000000
-    ## Gribier          45          Gribier          Gribier     1      0.0000000
-    ## Jondrette        46        Jondrette        Jondrette     1      0.0000000
-    ## MmeBurgon        47        MmeBurgon        MmeBurgon     2     75.0000000
-    ## Gavroche         48         Gavroche         Gavroche    22    470.5706319
-    ## Gillenormand     49     Gillenormand     Gillenormand     7     57.6002715
-    ## Magnon           50           Magnon           Magnon     2      0.6190476
-    ## MlleGillenormand 51 MlleGillenormand MlleGillenormand     7    135.6569444
-    ## MmePontmercy     52     MmePontmercy     MmePontmercy     2      1.0000000
-    ## MlleVaubois      53      MlleVaubois      MlleVaubois     1      0.0000000
-    ## LtGillenormand   54   LtGillenormand   LtGillenormand     4      0.0000000
-    ## Marius           55           Marius           Marius    19    376.2925926
-    ## BaronessT        56        BaronessT        BaronessT     2      0.0000000
-    ## Mabeuf           57           Mabeuf           Mabeuf    11     78.8345238
-    ## Enjolras         58         Enjolras         Enjolras    15    121.2770669
-    ## Combeferre       59       Combeferre       Combeferre    11      3.5629149
-    ## Prouvaire        60        Prouvaire        Prouvaire     9      0.0000000
-    ## Feuilly          61          Feuilly          Feuilly    11      3.5629149
-    ## Courfeyrac       62       Courfeyrac       Courfeyrac    13     15.0110352
-    ## Bahorel          63          Bahorel          Bahorel    12      6.2286417
-    ## Bossuet          64          Bossuet          Bossuet    13     87.6479030
-    ## Joly             65             Joly             Joly    12      6.2286417
-    ## Grantaire        66        Grantaire        Grantaire    10      0.4285714
-    ## MotherPlutarch   67   MotherPlutarch   MotherPlutarch     1      0.0000000
-    ## Gueulemer        68        Gueulemer        Gueulemer    10     14.1370943
-    ## Babet            69            Babet            Babet    10     14.1370943
-    ## Claquesous       70       Claquesous       Claquesous    10     13.8561420
-    ## Montparnasse     71     Montparnasse     Montparnasse     9     11.0404151
-    ## Toussaint        72        Toussaint        Toussaint     3      0.0000000
-    ## Child1           73           Child1           Child1     2      0.0000000
-    ## Child2           74           Child2           Child2     2      0.0000000
-    ## Brujon           75           Brujon           Brujon     7      1.2500000
-    ## MmeHucheloup     76     MmeHucheloup     MmeHucheloup     7      0.0000000
-    ##                  agrupamiento
-    ## Myriel             0.06666667
-    ## Napoleon           0.00000000
-    ## MlleBaptistine     1.00000000
-    ## MmeMagloire        1.00000000
-    ## CountessDeLo       0.00000000
-    ## Geborand           0.00000000
-    ## Champtercier       0.00000000
-    ## Cravatte           0.00000000
-    ## Count              0.00000000
-    ## OldMan             0.00000000
-    ## Labarre            0.00000000
-    ## Valjean            0.12063492
-    ## Marguerite         1.00000000
-    ## MmeDeR             0.00000000
-    ## Isabeau            0.00000000
-    ## Gervais            0.00000000
-    ## Tholomyes          0.61111111
-    ## Listolier          1.00000000
-    ## Fameuil            1.00000000
-    ## Blacheville        1.00000000
-    ## Favourite          1.00000000
-    ## Dahlia             1.00000000
-    ## Zephine            1.00000000
-    ## Fantine            0.31428571
-    ## MmeThenardier      0.49090909
-    ## Thenardier         0.40833333
-    ## Cosette            0.38181818
-    ## Javert             0.32352941
-    ## Fauchelevent       0.33333333
-    ## Bamatabois         0.64285714
-    ## Perpetue           1.00000000
-    ## Simplice           0.66666667
-    ## Scaufflaire        0.00000000
-    ## Woman1             1.00000000
-    ## Judge              1.00000000
-    ## Champmathieu       1.00000000
-    ## Brevet             1.00000000
-    ## Chenildieu         1.00000000
-    ## Cochepaille        1.00000000
-    ## Pontmercy          0.33333333
-    ## Boulatruelle       0.00000000
-    ## Eponine            0.45454545
-    ## Anzelma            1.00000000
-    ## Woman2             1.00000000
-    ## MotherInnocent     1.00000000
-    ## Gribier            0.00000000
-    ## Jondrette          0.00000000
-    ## MmeBurgon          0.00000000
-    ## Gavroche           0.35497835
-    ## Gillenormand       0.47619048
-    ## Magnon             0.00000000
-    ## MlleGillenormand   0.42857143
-    ## MmePontmercy       0.00000000
-    ## MlleVaubois        0.00000000
-    ## LtGillenormand     1.00000000
-    ## Marius             0.33333333
-    ## BaronessT          1.00000000
-    ## Mabeuf             0.69090909
-    ## Enjolras           0.60952381
-    ## Combeferre         0.92727273
-    ## Prouvaire          1.00000000
-    ## Feuilly            0.92727273
-    ## Courfeyrac         0.75641026
-    ## Bahorel            0.86363636
-    ## Bossuet            0.76923077
-    ## Joly               0.86363636
-    ## Grantaire          0.93333333
-    ## MotherPlutarch     0.00000000
-    ## Gueulemer          0.80000000
-    ## Babet              0.80000000
-    ## Claquesous         0.71111111
-    ## Montparnasse       0.83333333
-    ## Toussaint          1.00000000
-    ## Child1             1.00000000
-    ## Child2             1.00000000
-    ## Brujon             0.90476190
-    ## MmeHucheloup       1.00000000
+### Ejercicio opcional: 
 
-La distribución de grado es una propiedad muy importante de una red.
-Calculémosla
+¿Con lo que hemos aprendido, cómo obtendríamos la distribución de grado de nuestra red? ¿Qué nos dice sobre nuestra red?
 
-``` r
-library(tidyverse)
 
-#uso dplyr para sacar frecuencias de valores de grado
-my_df <-
-mi_df_nodos %>% 
-  group_by(grado) %>% 
-  summarize(frecuencia = n()) %>% 
-  mutate(acumulada = cumsum(frecuencia)) %>% 
-  mutate(relativa = acumulada/max(acumulada)) %>% 
-  mutate(res.rel = 1 - relativa)   
-
-#grafico las frecuencias contra el valor de grado
-my_df %>%   
-  ggplot(mapping = aes(x = grado, 
-                       y = frecuencia)) +
-  geom_point() 
-```
-
-![](redes_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
-
-``` r
-#a veces me gusta ver la 1-acumulada
-my_df %>%   
-  ggplot(mapping = aes(x = grado, 
-                       y = res.rel)) +
-  geom_line() 
-```
-
-![](redes_files/figure-gfm/unnamed-chunk-23-2.png)<!-- -->
-
-``` r
-#a veces me gusta verla en semilog()
-my_df %>%   
-  ggplot(mapping = aes(x = grado, 
-                       y = res.rel)) +
-  geom_line() + 
-  scale_y_log10()
-```
-
-    ## Warning: Transformation introduced infinite values in continuous y-axis
-
-![](redes_files/figure-gfm/unnamed-chunk-23-3.png)<!-- -->
 
 ## analizar propiedades de los enlaces
 
