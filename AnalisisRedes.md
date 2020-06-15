@@ -1,4 +1,4 @@
-Introudcción al Análisis de redes
+Introducción al Análisis de redes
 ================
 Guilermo de Anda-Jáuregui
 
