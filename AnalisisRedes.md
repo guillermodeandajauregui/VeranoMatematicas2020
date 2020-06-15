@@ -44,7 +44,6 @@ carguemos los paquetes
 **R** 
 ``` r
 library(igraph)
-library(igraph)
 ```
 
 **Python** 
