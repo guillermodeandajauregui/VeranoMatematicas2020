@@ -70,7 +70,7 @@ Pueden seguir los ejercicios con cualquiera de las redes biológicas que les com
 
 **R** 
 ``` r
-g <- read.graph(file = "les_miserables.gml", format = "gml")
+g <- read.graph(file = "les_miserables.graphml", format = "graphml")
 ```
 
 **Python** 
